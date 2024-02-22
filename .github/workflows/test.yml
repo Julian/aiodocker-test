@@ -1,0 +1,25 @@
+name: Test
+
+on:
+  push:
+
+concurrency:
+  group: test
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: python3 -m pip install aiodocker
+      - run: python3 run.py
+      - run: docker system df
+      - run: docker images
+
+      - uses: bowtie-json-schema/bowtie@badges
+      - run: bowtie suite -i clojure-json-schema -i cpp-valijson -i dotnet-jsonschema-net -i go-gojsonschema -i go-jsonschema -i java-json-schema -i java-json-schema-validator -i java-jsonschemafriend -i java-openapiprocessor -i js-ajv -i js-hyperjump -i js-jsonschema -i kotlin-kmp-json-schema-validator -i lua-jsonschema -i php-opis-json-schema -i python-fastjsonschema -i python-jschon -i python-jsonschema -i ruby-json_schemer -i rust-boon -i rust-jsonschema -i scala-mjs-validator -i scala-rc-circe-json-validator -i ts-vscode-json-languageservice  https://github.com/json-schema-org/JSON-Schema-Test-Suite/tree/main/tests/draft6 || true
+      - run: docker system df
+        if: always()
+      - run: docker images
+        if: always()
