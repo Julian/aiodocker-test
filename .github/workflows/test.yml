@@ -17,6 +17,7 @@ jobs:
       - run: docker system df
       - run: docker images
 
+      - run: docker pull ghcr.io/bowtie-json-schema/ts-vscode-json-languageservice:latest
       - uses: bowtie-json-schema/bowtie@badges
       - run: bowtie suite -i ts-vscode-json-languageservice  https://github.com/json-schema-org/JSON-Schema-Test-Suite/tree/main/tests/draft6 || true
       - run: docker system df
